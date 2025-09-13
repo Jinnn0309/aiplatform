@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>企业内部AI应用平台</title>
+  <!-- 引入外部资源 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  
+  <!-- Tailwind 配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0066FF',
+            secondary: '#36CFC9',
+            accent: '#722ED1',
+            dark: '#1D2129',
+            light: '#F7F8FA'
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+      }
+    }
+  </style>
+</head>
+
+<body class="font-inter bg-light text-dark min-h-screen">
+  <!-- 顶部导航 -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center">
+          <div class="text-primary text-2xl mr-3">
+            <i class="fa fa-brain"></i>
+          </div>
+          <h1 class="text-xl font-bold">企业AI应用平台</h1>
+        </div>
+        
+        <div class="flex items-center space-x-6">
+          <!-- 搜索框 -->
+          <div class="hidden md:flex items-center bg-light rounded-full px-4 py-2 w-64">
+            <i class="fa fa-search text-gray-400 mr-2"></i>
+            <input type="text" placeholder="搜索AI应用..." class="bg-transparent border-none outline-none w-full text-sm">
+          </div>
+          
+          <!-- 通知 -->
+          <div class="relative">
+            <button class="text-gray-600 hover:text-primary transition-colors">
+              <i class="fa fa-bell text-lg"></i>
+              <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">3</span>
+            </button>
+          </div>
+          
+          <!-- 用户信息 -->
+          <div class="flex items-center">
+            <img src="https://picsum.photos/id/1005/40/40" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+            <span class="hidden md:inline text-sm font-medium">张经理</span>
+            <i class="fa fa-angle-down text-gray-500 ml-1"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- 页面标题与统计 -->
+    <div class="mb-8">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
+        <div>
+          <h2 class="text-2xl font-bold">AI应用中心</h2>
+          <p class="text-gray-500 mt-1">高效利用AI工具提升工作效率</p>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center text-sm text-gray-500">
+          <div class="flex items-center mr-6">
+            <i class="fa fa-clock-o text-primary mr-2"></i>
+            <span>本月使用: 28次</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fa fa-line-chart text-primary mr-2"></i>
+            <span>效率提升: 37%</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 快捷访问 -->
+      <div class="bg-white rounded-xl shadow-sm p-4 mb-8">
+        <h3 class="font-medium mb-3">快捷访问</h3>
+        <div class="flex flex-wrap gap-3">
+          <a href="#" class="flex items-center bg-light hover:bg-primary/5 px-4 py-2 rounded-lg transition-colors">
+            <i class="fa fa-file-text text-primary mr-2"></i>
+            <span>合同分析工具</span>
+          </a>
+          <a href="#" class="flex items-center bg-light hover:bg-primary/5 px-4 py-2 rounded-lg transition-colors">
+            <i class="fa fa-comments text-primary mr-2"></i>
+            <span>智能问答助手</span>
+          </a>
+          <a href="#" class="flex items-center bg-light hover:bg-primary/5 px-4 py-2 rounded-lg transition-colors">
+            <i class="fa fa-users text-primary mr-2"></i>
+            <span>会议纪要生成</span>
+          </a>
+          <a href="#" class="flex items-center bg-light hover:bg-primary/5 px-4 py-2 rounded-lg transition-colors">
+            <i class="fa fa-gavel text-primary mr-2"></i>
+            <span>智能投标助手</span>
+          </a>
+          <a href="#" class="flex items-center bg-light hover:bg-primary/5 px-4 py-2 rounded-lg transition-colors">
+            <i class="fa fa-file-text-o text-primary mr-2"></i>
+            <span>智能公文写作</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 应用分类与列表 -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <!-- 左侧分类导航 -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-xl shadow-sm p-5 sticky top-24">
+          <h3 class="font-bold mb-4">应用分类</h3>
+          <ul class="space-y-1">
+            <li>
+              <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium">
+                <span>全部应用</span>
+                <span class="bg-primary text-white text-xs px-2 py-0.5 rounded-full">18</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <span>文档处理</span>
+                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full">6</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <span>智能沟通</span>
+                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full">4</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <span>图像识别</span>
+                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full">3</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <span>数据分析</span>
+                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full">2</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <span>安全检测</span>
+                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded-full">3</span>
+              </a>
+            </li>
+          </ul>
+          
+          <div class="mt-8 pt-6 border-t border-gray-100">
+            <h3 class="font-bold mb-4">使用统计</h3>
+            <div class="h-48">
+              <canvas id="usageChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 右侧应用列表 -->
+      <div class="lg:col-span-3">
+        <!-- 推荐应用 -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold text-lg">推荐应用</h3>
+            <a href="#" class="text-primary text-sm hover:underline">查看全部</a>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- 重点应用1 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 card-hover">
+              <div class="p-5">
+                <div class="flex justify-between items-start mb-4">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary mr-3">
+                      <i class="fa fa-file-text-o"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-bold">智能合同分析平台</h4>
+                      <p class="text-xs text-gray-500">文档处理 · 本月使用2.5k次</p>
+                    </div>
+                  </div>
+                  <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">新版</span>
+                </div>
+                
+                <p class="text-sm text-gray-600 mb-4">自动识别合同关键条款，提取核心信息，识别潜在风险点，生成分析报告。</p>
+                
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">合同审查</span>
+                  <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">风险识别</span>
+                  <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">信息提取</span>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center">
+                    <div class="flex">
+                      <i class="fa fa-star text-yellow-400"></i>
+                      <i class="fa fa-star text-yellow-400"></i>
+                      <i class="fa fa-star text-yellow-400"></i>
+                      <i class="fa fa-star text-yellow-400"></i>
+                      <i class="fa fa-star-half-o text-yellow-400"></i>
+                    </div>
+                    <span class="text-xs text-gray-500 ml-2">4.5 (128)</span>
+                  </div>
+                  <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                    立即使用
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 重点应用2 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 card-hover">
+              <div class="p-5">
+                <div class="flex justify-between items-start mb-4">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mr-3">
+                      <i class="fa fa-comments-o"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-bold">企业智能问答助手</h4>
+                      <p class="text-xs text-gray-500">智能沟通 · 本月使用5.8k次</p>
+                    </div>
+                  </div>
+                  <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">热门</span>
+                </div>
+                
+                <p class="text-sm text-gray-600 mb-4">基于企业知识库的智能问答，支持业务咨询、流程查询、政策解读等场景。</p>
+                
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">业务咨询</span>
+                  <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">知识查询</span>
+                  <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">流程指引</span>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center">
+                    <div class="flex">
+                      <i class="fa fa-star text-yellow-400"></i>
+                      <i class="fa fa-star text-yellow-400"></i>
+                      <i class="fa fa-star text-yellow-400"></i>
+                      <i class="fa fa-star text-yellow-400"></i>
+                      <i class="fa fa-star text-yellow-400"></i>
+                    </div>
+                    <span class="text-xs text-gray-500 ml-2">4.9 (326)</span>
+                  </div>
+                  <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                    立即使用
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 所有应用 -->
+        <div>
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold text-lg">全部应用</h3>
+            <div class="flex items-center">
+              <label class="text-sm text-gray-500 mr-2">排序:</label>
+              <select class="bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm outline-none">
+                <option>使用频率</option>
+                <option>最新上线</option>
+                <option>评分优先</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- 应用卡片1 -->
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100 card-hover">
+              <div class="flex items-center mb-3">
+                <div class="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center text-accent mr-3">
+                  <i class="fa fa-users"></i>
+                </div>
+                <h4 class="font-medium">智能会议助手</h4>
+              </div>
+              <p class="text-xs text-gray-500 mb-3">智能沟通 · 4.7 (98)</p>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">实时会议记录，自动生成纪要和待办事项，支持多语言翻译。</p>
+              <button class="w-full bg-light hover:bg-primary/5 text-primary text-sm py-2 rounded-lg transition-colors">
+                打开应用
+              </button>
+            </div>
+            
+            <!-- 应用卡片2 -->
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100 card-hover">
+              <div class="flex items-center mb-3">
+                <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary mr-3">
+                  <i class="fa fa-picture-o"></i>
+                </div>
+                <h4 class="font-medium">图像智能识别</h4>
+              </div>
+              <p class="text-xs text-gray-500 mb-3">图像识别 · 4.3 (76)</p>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">识别图片中的物体、文字和场景，支持批量处理和报告生成。</p>
+              <button class="w-full bg-light hover:bg-primary/5 text-primary text-sm py-2 rounded-lg transition-colors">
+                打开应用
+              </button>
+            </div>
+            
+            <!-- 应用卡片3：改为智能公文写作 -->
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100 card-hover">
+              <div class="flex items-center mb-3">
+                <div class="w-9 h-9 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mr-3">
+                  <i class="fa fa-file-text-o"></i>
+                </div>
+                <h4 class="font-medium">智能公文写作</h4>
+              </div>
+              <p class="text-xs text-gray-500 mb-3">文档处理 · 4.6 (152)</p>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">自动生成各类公文、报告和通知，支持格式规范和内容优化。</p>
+              <button class="w-full bg-light hover:bg-primary/5 text-primary text-sm py-2 rounded-lg transition-colors">
+                打开应用
+              </button>
+            </div>
+            
+            <!-- 应用卡片4：改为智能投标助手 -->
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100 card-hover">
+              <div class="flex items-center mb-3">
+                <div class="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center text-accent mr-3">
+                  <i class="fa fa-gavel"></i>
+                </div>
+                <h4 class="font-medium">智能投标助手</h4>
+              </div>
+              <p class="text-xs text-gray-500 mb-3">商务支持 · 4.8 (112)</p>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">快速生成投标文件，分析招标要求，匹配企业优势，提升中标率。</p>
+              <button class="w-full bg-light hover:bg-primary/5 text-primary text-sm py-2 rounded-lg transition-colors">
+                打开应用
+              </button>
+            </div>
+            
+            <!-- 应用卡片5 -->
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100 card-hover">
+              <div class="flex items-center mb-3">
+                <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary mr-3">
+                  <i class="fa fa-shield"></i>
+                </div>
+                <h4 class="font-medium">安全隐患识别</h4>
+              </div>
+              <p class="text-xs text-gray-500 mb-3">安全检测 · 4.5 (89)</p>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">通过图像识别技术，自动检测生产环境中的安全隐患和违规行为。</p>
+              <button class="w-full bg-light hover:bg-primary/5 text-primary text-sm py-2 rounded-lg transition-colors">
+                打开应用
+              </button>
+            </div>
+            
+            <!-- 应用卡片6：改为智能客户服务 -->
+            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-100 card-hover">
+              <div class="flex items-center mb-3">
+                <div class="w-9 h-9 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary mr-3">
+                  <i class="fa fa-headphones"></i>
+                </div>
+                <h4 class="font-medium">智能客户服务</h4>
+              </div>
+              <p class="text-xs text-gray-500 mb-3">智能沟通 · 4.7 (205)</p>
+              <p class="text-sm text-gray-600 mb-3 line-clamp-2">自动应答客户咨询，处理常见问题，记录需求并生成跟进工单。</p>
+              <button class="w-full bg-light hover:bg-primary/5 text-primary text-sm py-2 rounded-lg transition-colors">
+                打开应用
+              </button>
+            </div>
+          </div>
+          
+          <!-- 分页 -->
+          <div class="mt-8 flex justify-center">
+            <nav class="flex items-center space-x-1">
+              <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:border-primary hover:text-primary transition-colors">
+                <i class="fa fa-angle-left"></i>
+              </button>
+              <button class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white">1</button>
+              <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-primary hover:text-primary transition-colors">2</button>
+              <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-primary hover:text-primary transition-colors">3</button>
+              <span class="w-9 h-9 flex items-center justify-center">...</span>
+              <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:border-primary hover:text-primary transition-colors">6</button>
+              <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:border-primary hover:text-primary transition-colors">
+                <i class="fa fa-angle-right"></i>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-white border-t border-gray-200 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-sm text-gray-500">© 2023 企业AI应用平台 内部系统</p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="#" class="text-sm text-gray-500 hover:text-primary transition-colors">使用指南</a>
+          <a href="#" class="text-sm text-gray-500 hover:text-primary transition-colors">常见问题</a>
+          <a href="#" class="text-sm text-gray-500 hover:text-primary transition-colors">反馈建议</a>
+          <a href="#" class="text-sm text-gray-500 hover:text-primary transition-colors">联系支持</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // 使用统计图表
+    const ctx = document.getElementById('usageChart').getContext('2d');
+    const usageChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+        datasets: [{
+          label: '应用使用次数',
+          data: [120, 190, 230, 310, 420, 580],
+          fill: true,
+          backgroundColor: 'rgba(0, 102, 255, 0.1)',
+          borderColor: 'rgba(0, 102, 255, 1)',
+          tension: 0.4,
+          pointBackgroundColor: '#fff',
+          pointBorderColor: 'rgba(0, 102, 255, 1)',
+          pointBorderWidth: 2,
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)'
+            },
+            ticks: {
+              font: {
+                size: 10
+              }
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              font: {
+                size: 10
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+    

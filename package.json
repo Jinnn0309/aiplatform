@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "stylelint-config-tailwindcss": "^1.0.0"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.0"
+  }
+}
